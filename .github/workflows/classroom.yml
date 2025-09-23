@@ -1,0 +1,80 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: test_create_tfidfvectorizer
+      id: test_create_tfidfvectorizer
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: test_create_tfidfvectorizer
+        setup-command: pip install -r requirements.txt
+        command: pytest test.py -k 'test_create_tfidfvectorizer'
+        timeout: 10
+        max-score: 16
+    - name: test_run_vectorizer
+      id: test_run_vectorizer
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: test_run_vectorizer
+        setup-command: ''
+        command: pytest test.py -k 'test_run_vectorizer'
+        timeout: 10
+        max-score: 16
+    - name: test_create_model
+      id: test_create_model
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: test_create_model
+        setup-command: ''
+        command: pytest test.py -k 'test_create_model'
+        timeout: 10
+        max-score: 16
+    - name: test_run_model
+      id: test_run_model
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: test_run_model
+        setup-command: ''
+        command: pytest test.py -k 'test_run_model'
+        timeout: 10
+        max-score: 16
+    - name: test_create_balanced_model
+      id: test_create_balanced_model
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: test_create_balanced_model
+        setup-command: ''
+        command: pytest test.py -k 'test_create_balanced_model'
+        timeout: 10
+        max-score: 16
+    - name: test_create_column_transformer
+      id: test_create_column_transformer
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: test_create_column_transformer
+        setup-command: ''
+        command: pytest test.py -k 'test_create_column_transformer'
+        timeout: 10
+        max-score: 20
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        TEST_CREATE_TFIDFVECTORIZER_RESULTS: "${{steps.test_create_tfidfvectorizer.outputs.result}}"
+        TEST_RUN_VECTORIZER_RESULTS: "${{steps.test_run_vectorizer.outputs.result}}"
+        TEST_CREATE_MODEL_RESULTS: "${{steps.test_create_model.outputs.result}}"
+        TEST_RUN_MODEL_RESULTS: "${{steps.test_run_model.outputs.result}}"
+        TEST_CREATE_BALANCED_MODEL_RESULTS: "${{steps.test_create_balanced_model.outputs.result}}"
+        TEST_CREATE_COLUMN_TRANSFORMER_RESULTS: "${{steps.test_create_column_transformer.outputs.result}}"
+      with:
+        runners: test_create_tfidfvectorizer,test_run_vectorizer,test_create_model,test_run_model,test_create_balanced_model,test_create_column_transformer
