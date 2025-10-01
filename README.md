@@ -71,13 +71,6 @@ On success, you will see individual test scores and a Total Score reported by th
 - Ensure `run_vectorizer` returns matrices whose values and shapes match the provided gold matrices.
 - For deterministic behavior, avoid randomness or explicitly set seeds where applicable.
 
-## Grading breakdown
-- `test_create_tfidfvectorizer` — 16%
-- `test_run_vectorizer` — 16%
-- `test_create_model` — 16%
-- `test_run_model` — 16%
-- `test_create_balanced_model` — 16%
-- `test_create_column_transformer` — 20%
 
 ## Environment
 Key dependencies are pinned in `requirements.txt`:
